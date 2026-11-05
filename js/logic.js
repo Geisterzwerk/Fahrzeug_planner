@@ -14,7 +14,42 @@ export const PRIO = {
 export const TECH = { ok: 'Einsatzbereit', defekt: 'Defekt', reparatur: 'Reparatur', nv: 'Nicht verfügbar' };
 export const KEYS = { mir: 'Bei mir', ausgegeben: 'Ausgegeben', zug: 'Beim Zug', unklar: 'Unklar' };
 export const BSTATUS = { geplant: 'Geplant', erledigt: 'Erledigt', storniert: 'Storniert' };
-export const TYPES = ['DURO', 'PUCH', 'Mercedes G', 'Lastwagen', 'Bus', 'Anhänger', 'Anderes'];
+
+// Fahrzeugtypen (öffentlich bekannte Typen der Schweizer Armee).
+// Fehlt etwas? Einfach hier ergänzen. "Anhänger" muss genau so heissen (wird als Anhänger erkannt).
+export const TYPES = [
+  // --- Geländewagen / Transport ---
+  'DURO',
+  'DURO IIIP (geschützt)',
+  'PUCH',
+  'Mercedes G',
+  'Pinzgauer',
+  'Eagle (Aufklärungsfahrzeug)',
+  'GMTF (geschütztes Mannschaftstransportfahrzeug)',
+  'Lastwagen',
+  'Saurer 6DM',
+  'Saurer 10DM',
+  'Bus',
+  'Personenwagen',
+  'Motorrad',
+  // --- Radpanzer ---
+  'Piranha / Radschützenpanzer 93',
+  'Piranha IIIC',
+  'Piranha IV (PiPz 21)',
+  'Sanitätspanzer Piranha',
+  'ABC-Aufklärungsfahrzeug',
+  // --- Kettenfahrzeuge ---
+  'Panzer 87 Leopard',
+  'Schützenpanzer 2000 (CV9030)',
+  'M113',
+  'Panzerhaubitze M109',
+  'Bergepanzer Büffel',
+  'Brückenpanzer Leopard',
+  'Genie-/Minenräumpanzer Leopard',
+  // --- Sonstiges ---
+  'Anhänger',
+  'Anderes',
+];
 
 export const isTrailer = (v) => v && v.type === 'Anhänger';
 const MIN = 60000;
