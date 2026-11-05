@@ -1,0 +1,5 @@
+# Backups enthalten echte Daten – NIE auf GitHub laden!
+*backup*.json
+.DS_Store
+Thumbs.db
+node_modules/
