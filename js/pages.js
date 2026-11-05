@@ -13,6 +13,7 @@ import {
   openContactForm, openPlatoonForm, openVehicleList,
 } from './sheets.js';
 import { loadDemo } from './demo.js';
+import { openNewWK } from './newwk.js';
 
 export const ui = { calMode: 'day', calDate: new Date(), contactFilter: '', vehicleFilter: '', scrollKey: '', scrollTop: 0 };
 const HOUR = 56; // Pixel pro Stunde in der Tagesansicht
@@ -367,6 +368,9 @@ export function settingsPage() {
   return {
     title: 'Einstellungen', sub: 'Backup, Erinnerungen, Demo',
     html: `
+    <div class="label">Neuer WK</div>
+    <div class="card small muted">Löscht Fahrzeuge, Buchungen und Züge vom letzten WK. Personen-Kontakte (Sdt, Wm, Lt …) bleiben. Vorher wird ein Backup gespeichert.</div>
+    <button class="btn olive block big" data-act="newwk">🔄 Neuer WK starten</button>
     <div class="label">Benachrichtigungen</div>
     <div class="card">
       <div class="small">Status: <b>${perm === 'granted' ? 'erlaubt ✅' : perm === 'denied' ? 'blockiert ❌' : perm}</b></div>
@@ -386,7 +390,7 @@ export function settingsPage() {
       <label class="btn light">⬆️ Backup laden<input type="file" accept=".json,application/json" data-act="import" hidden></label></div>
     <div class="grid2 mt"><button class="btn light" data-act="demo">🧪 Demo-Daten laden</button>
       <button class="btn danger" data-act="reset">🗑️ Alles löschen</button></div>
-    <div class="muted small center mt">Fahrzeug-Planner v1.0 · ${db().vehicles.length} Fahrzeuge · ${db().bookings.length} Buchungen</div>`,
+    <div class="muted small center mt">Fahrzeug-Planner v1.1 · ${db().vehicles.length} Fahrzeuge · ${db().bookings.length} Buchungen · ${db().contacts.length} Kontakte</div>`,
     bind: (el) => {
       el.querySelectorAll('[data-set]').forEach((i) => i.addEventListener('change', () => {
         const val = parseInt(i.value, 10); if (Number.isFinite(val)) { s[i.dataset.set] = val; save(); toast('Gespeichert'); }
@@ -404,9 +408,10 @@ export function settingsPage() {
       });
       el.addEventListener('click', async (e) => {
         const t = e.target.closest('button'); if (!t) return;
+        if (t.dataset.act === 'newwk') openNewWK();
         if (t.dataset.act === 'export') download(`fahrzeugplaner-backup-${isoDate(new Date())}.json`, JSON.stringify(db(), null, 2));
         if (t.dataset.act === 'demo' && confirm('Demo-Daten laden? Aktuelle Daten werden ersetzt.')) { loadDemo(); toast('Demo-Daten geladen'); location.hash = '#/planner'; }
-        if (t.dataset.act === 'reset' && confirm('Wirklich ALLE Daten löschen?') && confirm('Sicher? Ohne Backup ist alles weg.')) { resetAll(); toast('Alles gelöscht'); }
+        if (t.dataset.act === 'reset' && confirm('Wirklich ALLE Daten löschen (auch Kontakte)?') && confirm('Sicher? Ohne Backup ist alles weg.')) { resetAll(); toast('Alles gelöscht'); }
         if (t.dataset.act === 'perm') {
           if (typeof Notification === 'undefined') return toast('Nicht unterstützt – App zum Home-Bildschirm hinzufügen');
           const r = await Notification.requestPermission(); toast(r === 'granted' ? 'Erlaubt ✅' : 'Nicht erlaubt'); window.dispatchEvent(new Event('rerender'));

@@ -1,9 +1,10 @@
 // Service Worker – macht die App offline-fähig.
 // WICHTIG: Nach jeder Code-Änderung VERSION erhöhen, sonst lädt das iPhone die alte Version.
-const VERSION = 'fp-v1.0.0';
+const VERSION = 'fp-v1.1.0';
 const FILES = [
   './', './index.html', './manifest.webmanifest', './css/style.css',
   './js/app.js', './js/store.js', './js/logic.js', './js/ui.js', './js/sheets.js', './js/pages.js', './js/demo.js',
+  './js/newwk.js',
   './icons/icon-192.png', './icons/icon-512.png', './icons/apple-touch-icon.png',
 ];
 
